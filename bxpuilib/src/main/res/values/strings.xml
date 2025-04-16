@@ -4,13 +4,21 @@
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
 
+    <string name="permission_storage_close_content">Please find it in cellphone setting- permission, and allow %s use the Storage and location permission</string>
+    <string name="permission_ble_close_content">Please find it in cellphone setting- permission, and allow %s use the bluetooth and location permission</string>
+    <string name="permission_open">OK</string>
+    <string name="permission_storage_need_content">%s requires access to Storage and location permission. If the permissions are not on, %s cannot be used normally.</string>
+    <string name="location_need_title">Turn on Location permission</string>
+    <string name="location_need_content">After that, %s could search and connect with the device</string>
+    <string name="permission_location_close_content">Please find it in cellphone setting- permission, and allow %s use the Location permission</string>
+    <string name="permission_location_need_content">%s requires access to Location permission. If the permissions are not on, %s cannot be used normally.</string>
+    <string name="permission_ble_content">%s requires access to bluetooth scan contract and location permission. If the permissions are not on, %s cannot be used normally.</string>
+    
     <string name="please_enter_password">Please enter password</string>
     <string name="password_null">Password cannot be empty!</string>
-    <string name="main_password_length">The password should be 8 characters</string>
+    <string name="password_length">Length should be 16 bits</string>
     <string name="change_password_length">The password should be 8 characters.Please try again</string>
     <string name="change_password_match">Password do not match!Please try again.</string>
     <string name="setting_syncing">syncing</string>
-
-    // net
-    <string name="request_error">Request Error!</string>
+    <string name="rssi_filter_tips">* RSSI filtering is the highest priority filtering condition. BLE Name and MAC Address filtering must first meet the RSSI filtering condition.\n* There is an \"OR\" relationship between the BLE Name filtering and the MAC Address filtering.</string>
 </resources>

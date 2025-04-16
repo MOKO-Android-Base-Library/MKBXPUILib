@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-
 import com.moko.lib.bxpui.databinding.DialogBottomBinding;
 
 import java.util.ArrayList;

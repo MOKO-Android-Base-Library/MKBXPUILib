@@ -12,7 +12,6 @@ import com.moko.lib.bxpui.R;
 
 import androidx.viewbinding.ViewBinding;
 
-
 /**
  * @Date 2017/12/11 0011
  * @Author wenzheng.liu

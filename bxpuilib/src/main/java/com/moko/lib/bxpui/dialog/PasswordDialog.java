@@ -4,28 +4,31 @@ import android.content.Context;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.moko.lib.bxpui.R;
 import com.moko.lib.bxpui.databinding.DialogPasswordBinding;
 import com.moko.lib.bxpui.utils.ToastUtils;
 
-public class PasswordDialog extends BaseDialog<DialogPasswordBinding> {
+public class PasswordDialog extends MokoBaseDialog<DialogPasswordBinding> {
     public static final String TAG = PasswordDialog.class.getSimpleName();
+
+
     private final String FILTER_ASCII = "[ -~]*";
+
     private String password;
 
-    public PasswordDialog(Context context) {
-        super(context);
+
+    @Override
+    protected DialogPasswordBinding getViewBind(LayoutInflater inflater, ViewGroup container) {
+        return DialogPasswordBinding.inflate(inflater, container, false);
     }
 
     @Override
-    protected DialogPasswordBinding getViewBind() {
-        return DialogPasswordBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    protected void onCreate() {
+    public void onCreateView() {
         InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -36,7 +39,7 @@ public class PasswordDialog extends BaseDialog<DialogPasswordBinding> {
                 return null;
             }
         };
-        mBind.etPassword.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8), filter});
+        mBind.etPassword.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16), filter});
         if (!TextUtils.isEmpty(password)) {
             mBind.etPassword.setText(password);
             mBind.etPassword.setSelection(password.length());
@@ -48,28 +51,64 @@ public class PasswordDialog extends BaseDialog<DialogPasswordBinding> {
             }
         });
         mBind.tvPasswordEnsure.setOnClickListener(v -> {
+            dismiss();
             if (TextUtils.isEmpty(mBind.etPassword.getText().toString())) {
                 ToastUtils.showToast(getContext(), getContext().getString(R.string.password_null));
                 return;
             }
-            if (mBind.etPassword.getText().toString().length() != 8) {
-                ToastUtils.showToast(getContext(), getContext().getString(R.string.main_password_length));
-                return;
-            }
-            dismiss();
             if (passwordClickListener != null)
                 passwordClickListener.onEnsureClicked(mBind.etPassword.getText().toString());
         });
+        mBind.etPassword.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //设置可获得焦点
+                mBind.etPassword.setFocusable(true);
+                mBind.etPassword.setFocusableInTouchMode(true);
+                //请求获得焦点
+                mBind.etPassword.requestFocus();
+                //调用系统输入法
+                InputMethodManager inputManager = (InputMethodManager) mBind.etPassword
+                        .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(mBind.etPassword, 0);
+            }
+        }, 200);
+    }
+
+    @Override
+    public int getDialogStyle() {
+        return R.style.CenterDialog;
+    }
+
+    @Override
+    public int getGravity() {
+        return Gravity.CENTER;
+    }
+
+    @Override
+    public String getFragmentTag() {
+        return TAG;
+    }
+
+    @Override
+    public float getDimAmount() {
+        return 0.7f;
+    }
+
+    @Override
+    public boolean getCancelOutside() {
+        return false;
+    }
+
+    @Override
+    public boolean getCancellable() {
+        return true;
     }
 
     private PasswordClickListener passwordClickListener;
 
     public void setOnPasswordClicked(PasswordClickListener passwordClickListener) {
         this.passwordClickListener = passwordClickListener;
-    }
-
-    public void setData(String mSavedPassword) {
-        password = mSavedPassword;
     }
 
     public interface PasswordClickListener {
@@ -79,16 +118,7 @@ public class PasswordDialog extends BaseDialog<DialogPasswordBinding> {
         void onDismiss();
     }
 
-    public void showKeyboard() {
-        //设置可获得焦点
-        mBind.etPassword.setFocusable(true);
-        mBind.etPassword.setFocusableInTouchMode(true);
-        //请求获得焦点
-        mBind.etPassword.requestFocus();
-        //调用系统输入法
-        InputMethodManager inputManager = (InputMethodManager) mBind.etPassword
-                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(mBind.etPassword, 0);
-
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

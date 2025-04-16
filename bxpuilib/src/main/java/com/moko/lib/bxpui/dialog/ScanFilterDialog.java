@@ -6,9 +6,11 @@ import android.widget.SeekBar;
 
 import com.moko.lib.bxpui.databinding.DialogScanFilterBinding;
 
+
 public class ScanFilterDialog extends BaseDialog<DialogScanFilterBinding> {
     private int filterRssi;
     private String filterName;
+    private String filterMac;
 
     @Override
     protected DialogScanFilterBinding getViewBind() {
@@ -25,7 +27,7 @@ public class ScanFilterDialog extends BaseDialog<DialogScanFilterBinding> {
         mBind.sbRssi.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int rssi = progress - 127;
+                int rssi = (progress * -1);
                 mBind.tvRssi.setText(String.format("%sdBm", rssi + ""));
                 filterRssi = rssi;
             }
@@ -40,15 +42,20 @@ public class ScanFilterDialog extends BaseDialog<DialogScanFilterBinding> {
 
             }
         });
-        mBind.sbRssi.setProgress(filterRssi + 127);
+        mBind.sbRssi.setProgress(Math.abs(filterRssi));
         if (!TextUtils.isEmpty(filterName)) {
             mBind.etFilterName.setText(filterName);
             mBind.etFilterName.setSelection(filterName.length());
         }
+        if (!TextUtils.isEmpty(filterMac)) {
+            mBind.etFilterMac.setText(filterMac);
+            mBind.etFilterMac.setSelection(filterMac.length());
+        }
         setDismissEnable(true);
-        mBind.ivFilterDelete.setOnClickListener(v -> mBind.etFilterName.setText(""));
+        mBind.ivFilterNameDelete.setOnClickListener(v -> mBind.etFilterName.setText(""));
+        mBind.ivFilterMacDelete.setOnClickListener(v -> mBind.etFilterMac.setText(""));
         mBind.tvDone.setOnClickListener(v -> {
-            listener.onDone(mBind.etFilterName.getText().toString(), filterRssi);
+            listener.onDone(mBind.etFilterName.getText().toString(), mBind.etFilterMac.getText().toString(),filterRssi);
             dismiss();
         });
     }
@@ -63,11 +70,15 @@ public class ScanFilterDialog extends BaseDialog<DialogScanFilterBinding> {
         this.filterName = filterName;
     }
 
+    public void setFilterMac(String filterMac) {
+        this.filterMac = filterMac;
+    }
+
     public void setFilterRssi(int filterRssi) {
         this.filterRssi = filterRssi;
     }
 
     public interface OnScanFilterListener {
-        void onDone(String filterName, int filterRssi);
+        void onDone(String filterName, String filterMac, int filterRssi);
     }
 }
