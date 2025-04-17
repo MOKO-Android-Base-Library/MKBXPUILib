@@ -13,7 +13,12 @@
     <string name="permission_location_close_content">Please find it in cellphone setting- permission, and allow %s use the Location permission</string>
     <string name="permission_location_need_content">%1$s requires access to Location permission. If the permissions are not on, %2$s cannot be used normally.</string>
     <string name="permission_ble_content">%1$s requires access to bluetooth scan contract and location permission. If the permissions are not on, %2$s cannot be used normally.</string>
-    
+
+    <string name="main_exit_tips">Are you sure you want to quit?</string>
+    <string name="company_name">MOKO TECHNOLOGY LTD.</string>
+    <string name="about_title">ABOUT</string>
+    <string name="company_website">www.mokoblue.com</string>
+
     <string name="please_enter_password">Please enter password</string>
     <string name="password_null">Password cannot be empty!</string>
     <string name="password_length">Length should be 16 bits</string>
