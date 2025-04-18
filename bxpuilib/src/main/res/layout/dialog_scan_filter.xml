@@ -141,7 +141,6 @@
 
             <SeekBar
                 android:id="@+id/sb_rssi"
-                style="@style/CustomSeekbarStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
